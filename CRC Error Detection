@@ -1,0 +1,14 @@
+def crc_check(codeword, divisor):
+    l = len(divisor)
+    temp = codeword[:l]
+    for i in range(len(codeword) - l + 1):
+        temp = xor(temp, divisor) + (codeword[i + l] if i + l < len(codeword) else '')
+        temp = temp.lstrip('0').zfill(l)
+    return temp == '0' * (l - 1)
+
+received = '10101010100'
+divisor = '1011'
+if crc_check(received, divisor):
+    print("No error detected.")
+else:
+    print("Error detected!")
