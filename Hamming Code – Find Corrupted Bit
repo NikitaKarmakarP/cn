@@ -1,0 +1,20 @@
+def detect_error(code):
+    code = list(map(int, code))
+    n = len(code)
+    error_pos = 0
+    i = 0
+    while (2 ** i) <= n:
+        parity = 0
+        for j in range(1, n + 1):
+            if j & (2 ** i):
+                parity ^= code[-j]
+        if parity != 0:
+            error_pos += 2 ** i
+        i += 1
+    if error_pos == 0:
+        print("No error detected.")
+    else:
+        print("Error detected at bit position:", error_pos)
+
+received = '1001110011100'
+detect_error(received)
