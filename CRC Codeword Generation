@@ -1,0 +1,16 @@
+def xor(a, b):
+    return ''.join(['0' if i == j else '1' for i, j in zip(a, b)])
+
+def crc_encode(data, divisor):
+    l = len(divisor)
+    data += '0' * (l - 1)
+    temp = data[:l]
+    for i in range(len(data) - l + 1):
+        temp = xor(temp, divisor) + (data[i + l] if i + l < len(data) else '')
+        temp = temp.lstrip('0').zfill(l)
+    return data[:-(l - 1)] + temp
+
+data = '10101010'
+divisor = '1011'
+codeword = crc_encode(data, divisor)
+print(f"Codeword: {codeword}")
