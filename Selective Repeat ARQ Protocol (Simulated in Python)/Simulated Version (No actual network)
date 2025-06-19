@@ -1,0 +1,25 @@
+import random
+
+WINDOW_SIZE = 4
+frames = [f"Frame{i}" for i in range(1, 11)]
+acknowledged = [False] * len(frames)
+
+def send_frame(i):
+    print(f"Sending: {frames[i]}")
+    # Simulate random loss
+    if random.random() < 0.8:
+        print(f"ACK received for: {frames[i]}")
+        acknowledged[i] = True
+    else:
+        print(f"Frame {frames[i]} lost!")
+
+i = 0
+while i < len(frames):
+    for j in range(i, min(i + WINDOW_SIZE, len(frames))):
+        if not acknowledged[j]:
+            send_frame(j)
+    for j in range(i, min(i + WINDOW_SIZE, len(frames))):
+        if acknowledged[j]:
+            i += 1
+        else:
+            break  # stop window slide until this one is acked
